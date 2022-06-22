@@ -57,11 +57,11 @@
                     <% } %>
                         <% if (users[i].reviews.length> 0) { %>
                             <div><b>Reviews</b>
-                                <% for( let review of users[i].reviews ) { %>
-                                    <div class="reviews"><a href="/<%= review.post %> ">
-                                            . . . <%= review.body.substring(0,20) %>
-                                        </a></div>
-                                    <% } %>
+
+                                <div class="reviews"><a href="/<%= users[i].reviews.post %> ">
+                                        . . . <%= users[i].reviews[0].body %>
+                                    </a></div>
+
 
                             </div>
                             <% } %>
@@ -69,5 +69,7 @@
 
             </div>
             <% } %>
-            <div class="user-box"><%= upgradeCoin%> </div>
+                <div class="user-box">
+                    <%= upgradeCoin%>
+                </div>
     </div>
