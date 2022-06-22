@@ -5,6 +5,7 @@ body {
     width: 100%;
 }
 
+
 #yylamdiv {
     color: #ccc;
     font-size: 13px;
@@ -36,6 +37,7 @@ body {
 
 nav {
     background-color: #cc0000;
+
 }
 
 div {
@@ -170,7 +172,7 @@ nav a:hover {
 
 .user-info {
     width: 400px;
-    padding: 30px;
+    padding: 10px 0 0 30px;
     border-radius: 2rem;
     margin-left: 70px;
     position: sticky;
@@ -200,7 +202,7 @@ nav a:hover {
     align-items: center;
     width: 1290px;
     height: 100px;
-    padding: 0 50px 0 0px;
+    padding: 0 10px 0 0px;
 }
 
 .category-list {
@@ -320,6 +322,10 @@ nav a:hover {
     color: transparent
 }
 
+.hide-desktop {
+    display: none;
+}
+
 @media only screen and (max-width: 900px) {
     .inner-container {
         width: 100%;
@@ -338,8 +344,7 @@ nav a:hover {
     .user-info {
         width: 100%;
         margin: 0;
-        padding: 10px;
-        bottom: 140px;
+        bottom: 120px;
         opacity: 0.8;
     }
 
@@ -397,6 +402,10 @@ nav a:hover {
 
     .hide-mobile {
         display: none;
+    }
+
+    .hide-desktop {
+        display: block;
     }
 
     #userbar {
