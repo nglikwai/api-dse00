@@ -32,7 +32,7 @@
         }
 
         .disappear {
-            display: none;
+            display: none !important;
         }
     </style>
     <div class="container-fluid">
@@ -289,6 +289,11 @@
     }))
 
 
+    const mobileNav = document.querySelector('#mobile-nav')
+
+    if (window.innerHeight < 450) {
+        mobileNav.classList.add('disappear')
+    }
 
 
 
