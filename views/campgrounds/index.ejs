@@ -43,6 +43,12 @@
             margin: 5px 10px;
 
         }
+
+        @media only screen and (max-width: 650px) {
+            #chat-box {
+                display: none;
+            }
+        }
     </style>
 
     <div id="left-bar">
@@ -85,7 +91,6 @@
 
         </div>
 
-
         <div class="user-info wrapper">
 
             <div id="userbar">
@@ -124,7 +129,7 @@
                             <% } %>
             </div><br>
 
-            <div>
+            <div id="chat-box">
                 <form action="/" method="POST" novalidate class="validated-form" enctype="multipart/form-data">
                     <div>
                         <div class="d-flex">
@@ -185,6 +190,7 @@
                 </div>
             </div>
         </div>
+
 
     </div>
     <script src="/javascripts/renderPosts.js"></script>

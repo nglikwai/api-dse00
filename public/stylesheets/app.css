@@ -326,7 +326,7 @@ nav a:hover {
     display: none;
 }
 
-@media only screen and (max-width: 900px) {
+@media only screen and (max-width: 650px) {
     .inner-container {
         width: 100%;
     }
@@ -364,6 +364,8 @@ nav a:hover {
     nav a {
         line-height: 2.5rem;
     }
+
+
 
     .category-list {
         display: flex;
@@ -412,6 +414,12 @@ nav a:hover {
         display: none;
     }
 }
+
+/* @media only screen and (max-width: 900px) {
+    nav {
+        display: none !important;
+    }
+} */
 
 .grey {
     display: none;
