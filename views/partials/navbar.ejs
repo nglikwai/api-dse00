@@ -290,9 +290,11 @@
 
 
     const mobileNav = document.querySelector('#mobile-nav')
+    const desktopNav = document.querySelector('#navbar')
 
     if (window.innerHeight < 550) {
         mobileNav.classList.add('disappear')
+        desktopNav.classList.add('disappear')
     }
 
 
