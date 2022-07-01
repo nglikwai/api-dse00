@@ -8,8 +8,8 @@ const filesToCache = [
     '/css/style.css',
     '/js/app.js',
     '/js/menu.js',
-    '/images/refresh.svg',
-    '/images/pwa.png'
+    '/files/gear.svg',
+    '/files/dse00-icon.png'
 ]
 
 // Install Service Worker
