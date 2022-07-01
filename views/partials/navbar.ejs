@@ -269,7 +269,7 @@
         <% }else{ %>
             <a class="mobile-nav-item" href="/users/user/<%= currentUser._id %> ">
                 <i class="fa-solid fa-user" style="font-size: 1.3rem; display: block;"></i>
-                設定
+                <%= currentUser.username.toUpperCase().substring(0,3) %>
             </a>
             <% } %>
 </div>
