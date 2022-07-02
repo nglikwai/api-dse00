@@ -134,6 +134,12 @@ nav a {
     margin-top: 4px;
 }
 
+nav {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
 nav a:hover {
     color: #ccc;
 }

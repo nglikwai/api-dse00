@@ -1,40 +1,41 @@
-<nav id="'navbar" class="navbar sticky-top navbar-expand-lg"
-    style="width:100%; display: flex; justify-content: center;">
-    <style>
+<style>
+    .container-fluid {
+        width: 1230px;
+        padding: 0;
+    }
+
+    .profile-item {
+        color: #555;
+        cursor: pointer;
+        display: block;
+        padding: 6px 10px;
+        border-radius: 1rem;
+        transition: 0s;
+        font-size: 15px;
+    }
+
+    .profile-item:hover {
+        color: #cc0000;
+        background-color: rgba(240, 0, 0, 0.1);
+        width: 100%;
+    }
+
+
+    @media only screen and (max-width: 650px) {
         .container-fluid {
-            width: 1230px;
-            padding: 0;
-        }
-
-        .profile-item {
-            color: #555;
-            cursor: pointer;
-            display: block;
-            padding: 6px 10px;
-            border-radius: 1rem;
-            transition: 0s;
-            font-size: 15px;
-        }
-
-        .profile-item:hover {
-            color: #cc0000;
-            background-color: rgba(240, 0, 0, 0.1);
-            width: 100%;
-        }
-
-
-        @media only screen and (max-width: 650px) {
-            .container-fluid {
-                padding: 0 10px;
-                display: none !important;
-            }
-
-        }
-
-        .disappear {
+            padding: 0 10px;
             display: none !important;
         }
-    </style>
+
+    }
+
+    .disappear {
+        display: none !important;
+    }
+</style>
+
+<nav id="'navbar" class="navbar sticky-top navbar-expand-lg">
+
     <div class="container-fluid">
         <img width="50px"
             src="https://2.bp.blogspot.com/-2jtlhNddC7g/Wpy8735Y6vI/AAAAAAAAK0o/_8hrmXs0OQYnLZuRna4lVtxd_09qdzgGwCK4BGAYYCw/s640/output_lTomnU.gif"
@@ -306,11 +307,12 @@
 
 
     const mobileNav = document.querySelector('#mobile-nav')
-    const desktopNav = document.querySelector('#navbar')
+    const desktopNav = document.querySelector('.container-fluid')
 
-    if (window.innerHeight < 550) {
-        mobileNav.classList.add('disappear')
+    if (window.innerHeight < 600) {
         desktopNav.classList.add('disappear')
+        mobileNav.classList.add('disappear')
+        yylamDiv.classList.add('disappear')
     }
 
 
