@@ -10,8 +10,7 @@ const { findById } = require('../models/user');
 
 
 router.get('/', async (req, res) => {
-    const category = req.query.category || '主科';
-    const cutoffs = await Cutoff.find({ category })
+    const cutoffs = await Cutoff.find({})
     res.json({ cutoffs })
 })
 
