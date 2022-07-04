@@ -13,7 +13,7 @@ const Review = require('../models/review');
 
 router.route('/')
     .get(catchAsync(campgrounds.index))
-    .post(upload.array('image'), validateCampground, user.updateUser, checkLogin, catchAsync(campgrounds.createCampground))
+    .post(catchAsync(campgrounds.createCampground))
 
 router.route('/reply/:id')
     .get(catchAsync(campgrounds.renderReply))

@@ -4,14 +4,6 @@ const User = require("../models/user");
 
 const { cloudinary } = require("../cloudinary");
 
-module.exports.index = async (req, res) => {
-    console.time('main')
-    console.timeEnd('main')
-    res.render("campgrounds/index");
-};
-
-
-
 
 
 module.exports.index = async (req, res) => {
@@ -40,11 +32,13 @@ module.exports.renderNewForm = (req, res) => {
 };
 
 module.exports.createCampground = async (req, res, next) => {
-    const campground = new Campground(req.body.campground);
-    campground.images = req.files.map((f) => ({
-        url: f.path,
-        filename: f.filename,
-    }));
+
+    const campground = new Campground({
+        title: req.query.title,
+        description: req.query.description,
+        category: '吹水'
+    });
+
     if (req.user) {
         campground.author = req.user._id;
         const user = await User.findById(req.user._id);
@@ -56,23 +50,7 @@ module.exports.createCampground = async (req, res, next) => {
     res.json({ status: 'success', post: campground });
 };
 
-module.exports.createCampgroundForIframe = async (req, res, next) => {
-    const campground = new Campground(req.body.campground);
-    campground.images = req.files.map((f) => ({
-        url: f.path,
-        filename: f.filename,
-    }));
-    if (req.user) {
-        campground.author = req.user._id;
-        const user = await User.findById(req.user._id);
-        user.posts.push(campground);
-        user.coin += 5;
-        await user.save();
-    }
-    await campground.save();
-    req.flash("success", "成功建立POST");
-    res.redirect(`/iframe`);
-};
+
 
 module.exports.showCampground = async (req, res) => {
     const campground = await Campground.findById(req.params.id)
@@ -92,22 +70,6 @@ module.exports.showCampground = async (req, res) => {
         return res.redirect("/");
     }
     res.json(campground);
-};
-
-module.exports.showIframeCampground = async (req, res) => {
-    const campground = await Campground.findById(req.params.id)
-        .populate({
-            path: "reviews",
-            populate: {
-                path: "author",
-            },
-        })
-        .populate("author");
-    if (!campground) {
-        req.flash("error", "Cannot find that POST!");
-        return res.redirect("/");
-    }
-    res.render("campgrounds/showIframe", { campground });
 };
 
 module.exports.renderEditForm = async (req, res) => {
@@ -140,25 +102,7 @@ module.exports.updateCampground = async (req, res) => {
     res.redirect(`/${campground._id}`);
 };
 
-module.exports.updateIframeCampground = async (req, res) => {
-    const { id } = req.params;
-    const campground = await Campground.findByIdAndUpdate(id, {
-        ...req.body.campground,
-    });
-    const imgs = req.files.map((f) => ({ url: f.path, filename: f.filename }));
-    campground.images.push(...imgs);
-    await campground.save();
-    if (req.body.deleteImages) {
-        for (let filename of req.body.deleteImages) {
-            cloudinary.uploader.destroy(filename);
-        }
-        await campground.updateOne({
-            $pull: { images: { filename: { $in: req.body.deleteImages } } },
-        });
-    }
-    req.flash("success", "成功更新");
-    res.redirect(`/iframe/${campground._id}`);
-};
+
 
 module.exports.deleteCampground = async (req, res) => {
     const { id } = req.params;

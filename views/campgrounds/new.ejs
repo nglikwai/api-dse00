@@ -1,8 +1,8 @@
 <% layout('layouts/boilerplate')%>
     <div class="index-loop mt-5">
         <h1 class="text-center">建立 POST</h1>
-        <div >
-            <form action="/" method="POST" novalidate class="validated-form" enctype="multipart/form-data">
+        <div>
+            <form action="/posts" method="POST" novalidate class="validated-form" enctype="multipart/form-data">
                 <div class="mb-3">
                     <label class="form-label" for="category">類別</label>
                     <select class="form-select" style="width:100px" name="campground[category]" id="category">
@@ -10,7 +10,7 @@
                         <option value="DSE">DSE</option>
                         <option value="消息">消息</option>
                         <option value="大學">大學</option>
-                      </select>
+                    </select>
                 </div>
                 <div class="mb-3">
                     <label class="form-label" for="title">標題</label>
@@ -23,7 +23,8 @@
 
                 <div class="mb-3">
                     <label class="form-label" for="description">內容</label>
-                    <textarea class="form-control" type="text" style="height:150px;" id="description" name="campground[description]" required></textarea>
+                    <textarea class="form-control" type="text" style="height:150px;" id="description"
+                        name="campground[description]" required></textarea>
                     <div class="valid-feedback">
                         Looks good!
                     </div>
@@ -32,9 +33,9 @@
                     <div class="form-file custom-file">
                         <input type="file" class="form-file-input" id="image" name="image" multiple>
                         <label class="form-file-label" for="image">
-                        <span class="form-file-text custom-file-label">上載圖片...</span>
-                        <span class="form-file-button">打開</span>
-                    </label>
+                            <span class="form-file-text custom-file-label">上載圖片...</span>
+                            <span class="form-file-button">打開</span>
+                        </label>
                     </div>
                 </div>
 
