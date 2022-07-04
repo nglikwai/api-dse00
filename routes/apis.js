@@ -36,7 +36,10 @@ router.get('/posts', async (req, res) => {
     const category = req.query.category || ['吹水', 'DSE', '大學', '消息'];
     const options = {
         sort: { updatedAt: -1 },
-        populate: ["author", "reviews"],
+        populate: [{
+            path: 'author',
+            select: 'username'
+        }, "reviews"],
         limit,
         page,
     };

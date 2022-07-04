@@ -34,7 +34,7 @@ router.route('/iframe/:id')
 
 router.get('/new', campgrounds.renderNewForm)
 
-router.route('/:id')
+router.route('/post/:id')
     .get(user.updateUser, catchAsync(campgrounds.showCampground))
     .put(isLoggedIn, isAuthor, upload.array('image'), validateCampground, user.updateUser, catchAsync(campgrounds.updateCampground))
     .delete(isLoggedIn, isAuthor, catchAsync(campgrounds.deleteCampground));

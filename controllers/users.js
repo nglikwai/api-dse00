@@ -82,7 +82,6 @@ module.exports.updateUser = async (req, res, next) => {
         user.grade = 1;
         user.level = 1
     };
-    user.grade = '5**';
     user.save();
 
     const b = user.grade;

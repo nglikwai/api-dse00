@@ -116,14 +116,18 @@ module.exports.showCampground = async (req, res) => {
             path: "reviews",
             populate: {
                 path: "author",
+                select: 'username grade level'
             },
         })
-        .populate("author");
+        .populate({
+            path: "author",
+            select: 'username grade level'
+        });
     if (!campground) {
         req.flash("error", "Cannot find that POST!");
         return res.redirect("/");
     }
-    res.render("campgrounds/show", { campground });
+    res.json(campground);
 };
 
 module.exports.showIframeCampground = async (req, res) => {
