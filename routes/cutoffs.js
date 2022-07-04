@@ -9,10 +9,10 @@ const cutoffs = require('../controllers/cutoffs');
 const { findById } = require('../models/user');
 
 
-router.get('/', async(req, res) => {
+router.get('/', async (req, res) => {
     const category = req.query.category || '主科';
     const cutoffs = await Cutoff.find({ category })
-    res.render('cutoffs/index', { cutoffs, category })
+    res.json({ cutoffs })
 })
 
 

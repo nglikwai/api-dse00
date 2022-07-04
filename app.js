@@ -27,9 +27,6 @@ const jupasRoutes = require("./routes/jupas");
 const cors = require("cors");
 
 
-const dayjs = require("dayjs");
-dayjs().format();
-
 const MongoDBStore = require("connect-mongo");
 
 const dbUrl = process.env.DB_URL || "mongodb://localhost:27017/dse00";
@@ -119,12 +116,13 @@ app.use((req, res, next) => {
 
 app.use("/admins", adminRoutes);
 app.use("/apis", apiRoutes);
+app.use("/posts", campgroundRoutes);
 app.use("/tutor", tutorRoutes);
 app.use("/cutoffs", cutoffRoutes);
 app.use("/users", userRoutes);
 app.use("/resources", pastpaperRoutes);
 app.use("/jupas", jupasRoutes)
-app.use("/", campgroundRoutes);
+app.get("/", (req, res) => res.render('campgrounds'));
 app.use("/:id/reviews", reviewRoutes);
 
 

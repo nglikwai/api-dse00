@@ -12,29 +12,22 @@ const Campground = require('../models/campground');
 const Review = require('../models/review');
 
 router.route('/')
-    .get(user.updateUser, catchAsync(campgrounds.index))
+    .get(catchAsync(campgrounds.index))
     .post(upload.array('image'), validateCampground, user.updateUser, checkLogin, catchAsync(campgrounds.createCampground))
 
 router.route('/reply/:id')
     .get(catchAsync(campgrounds.renderReply))
     .post(checkLogin, catchAsync(campgrounds.reply))
 
-router.route('/iframe')
-    .get(catchAsync(campgrounds.iframe))
-    .post(upload.array('image'), validateCampground, user.updateUser, checkLogin, catchAsync(campgrounds.createCampgroundForIframe))
 
 router.route('/search')
     .get(catchAsync(campgrounds.index))
     .post(upload.array('image'), validateCampground, user.updateUser, checkLogin, catchAsync(campgrounds.createCampground))
 
-router.route('/iframe/:id')
-    .get(catchAsync(campgrounds.showIframeCampground))
-    .put(isLoggedIn, isAuthor, upload.array('image'), validateCampground, user.updateUser, checkLogin, catchAsync(campgrounds.updateIframeCampground))
-    .delete(isLoggedIn, isAuthor, catchAsync(campgrounds.deleteIframeCampground));
 
 router.get('/new', campgrounds.renderNewForm)
 
-router.route('/post/:id')
+router.route('/:id')
     .get(user.updateUser, catchAsync(campgrounds.showCampground))
     .put(isLoggedIn, isAuthor, upload.array('image'), validateCampground, user.updateUser, catchAsync(campgrounds.updateCampground))
     .delete(isLoggedIn, isAuthor, catchAsync(campgrounds.deleteCampground));

@@ -11,64 +11,29 @@ module.exports.index = async (req, res) => {
 };
 
 
-// module.exports.index = async (req, res) => {
-//     console.time('main')
-//     const id = req.user ? req.user._id : '622874ccc8ed254d82edf591';
-//     const limit = req.query.limit || 150;
-//     const page = req.query.page || 1;
-//     const category = req.query.category || ['吹水', 'DSE', '大學', '消息'];
-//     const options = {
-//         sort: { updatedAt: -1 },
-//         populate: ["author", "reviews"],
-//         limit,
-//         page,
-//     };
-//     let friendList = ['622874ccc8ed254d82edf591', '62249a88f2e44a001678e0ef', '62246de9a1b279001669c648'];
-//     if (req.user) { friendList = req.user.friendList; }
-
-
-//     const [user, data, reviews] = await Promise.all([
-//         User.findById(id).populate("friendList"),
-//         Campground.paginate({ category }, options),
-//         Review.find({ "author": friendList }).sort({ updatedAt: -1 }).limit(7).populate("author")
-//     ])
-
-//     const campgrounds = data.docs;
-//     console.timeEnd('main')
-//     res.render("campgrounds/index", { campgrounds, user, reviews });
-// };
 
 
 
-
-// module.exports.index = async(req, res) => {
-//     const campgrounds = await Campground.find({})
-//         .populate({
-//             path: "reviews",
-//             populate: {
-//                 path: "author",
-//             },
-//         })
-//         .populate("author")
-//         .sort({ updatedAt: -1 });
-//     res.render("campgrounds/index", { campgrounds });
-// };
-
-module.exports.iframe = async (req, res) => {
+module.exports.index = async (req, res) => {
     console.time('main')
-    const limit = req.query.limit || 50;
+    const limit = req.query.limit || 150;
     const page = req.query.page || 1;
+    const category = req.query.category || ['吹水', 'DSE', '大學', '消息'];
     const options = {
         sort: { updatedAt: -1 },
-        populate: ["author", "reviews"],
+        populate: [{
+            path: 'author',
+            select: 'username'
+        }, "reviews"],
         limit,
         page,
     };
-    const data = await Campground.paginate({}, options);
+    const data = await Campground.paginate({ category }, options)
+
     const campgrounds = data.docs;
     console.timeEnd('main')
-    res.render("campgrounds/iframe", { campgrounds });
-};
+    res.json(campgrounds);
+}
 
 module.exports.renderNewForm = (req, res) => {
     res.render("campgrounds/new");
@@ -88,8 +53,7 @@ module.exports.createCampground = async (req, res, next) => {
         await user.save();
     }
     await campground.save();
-    req.flash("success", "成功POST，🪙 + 5 ");
-    res.redirect(`/${campground._id}`);
+    res.json({ status: 'success', post: campground });
 };
 
 module.exports.createCampgroundForIframe = async (req, res, next) => {
@@ -252,3 +216,32 @@ module.exports.renderReply = async (req, res) => {
 
     res.render("campgrounds/show", { campground, replyReview })
 }
+
+
+
+// module.exports.index = async (req, res) => {
+//     console.time('main')
+//     const id = req.user ? req.user._id : '622874ccc8ed254d82edf591';
+//     const limit = req.query.limit || 150;
+//     const page = req.query.page || 1;
+//     const category = req.query.category || ['吹水', 'DSE', '大學', '消息'];
+//     const options = {
+//         sort: { updatedAt: -1 },
+//         populate: ["author", "reviews"],
+//         limit,
+//         page,
+//     };
+//     let friendList = ['622874ccc8ed254d82edf591', '62249a88f2e44a001678e0ef', '62246de9a1b279001669c648'];
+//     if (req.user) { friendList = req.user.friendList; }
+
+
+//     const [user, data, reviews] = await Promise.all([
+//         User.findById(id).populate("friendList"),
+//         Campground.paginate({ category }, options),
+//         Review.find({ "author": friendList }).sort({ updatedAt: -1 }).limit(7).populate("author")
+//     ])
+
+//     const campgrounds = data.docs;
+//     console.timeEnd('main')
+//     res.render("campgrounds/index", { campgrounds, user, reviews });
+// };
