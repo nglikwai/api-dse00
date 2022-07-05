@@ -14,6 +14,8 @@ const Review = require('../models/review');
 router.route('/')
     .get(catchAsync(campgrounds.index))
     .post(catchAsync(campgrounds.createCampground))
+    .delete(catchAsync(campgrounds.deleteCampground));
+
 
 router.route('/reply/:id')
     .get(catchAsync(campgrounds.renderReply))
@@ -30,7 +32,6 @@ router.get('/new', campgrounds.renderNewForm)
 router.route('/:id')
     .get(user.updateUser, catchAsync(campgrounds.showCampground))
     .put(isLoggedIn, isAuthor, upload.array('image'), validateCampground, user.updateUser, catchAsync(campgrounds.updateCampground))
-    .delete(isLoggedIn, isAuthor, catchAsync(campgrounds.deleteCampground));
 
 router.get('/:id/edit', isLoggedIn, isAuthor, catchAsync(campgrounds.renderEditForm))
 

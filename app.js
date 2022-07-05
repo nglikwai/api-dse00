@@ -127,7 +127,7 @@ app.use("/users", userRoutes);
 app.use("/resources", pastpaperRoutes);
 app.use("/jupas", jupasRoutes)
 app.get("/", (req, res) => res.render('campgrounds'));
-app.use("/:id/reviews", reviewRoutes);
+app.use("/reviews", reviewRoutes);
 
 
 

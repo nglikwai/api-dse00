@@ -3,8 +3,9 @@ const Review = require("../models/review");
 const User = require("../models/user");
 
 module.exports.createReview = async (req, res) => {
-  const campground = await Campground.findById(req.params.id);
-  const review = new Review(req.body.review);
+  console.log(req.body)
+  const campground = await Campground.findById(req.body.post);
+  const review = new Review(req.body);
   let id = '622874ccc8ed254d82edf591';
   if (req.user) {
     id = req.user._id;
@@ -21,28 +22,10 @@ module.exports.createReview = async (req, res) => {
   await review.save();
   await campground.save();
 
-  req.flash("success", "成功留言!");
-  res.redirect(`/${campground._id}`);
+  res.json({ success: 'true', review });
 };
 
-module.exports.createIframeReview = async (req, res) => {
-  const campground = await Campground.findById(req.params.id);
-  const review = new Review(req.body.review);
-  if (req.user) {
-    const user = await User.findById(req.user._id);
-    review.author = req.user._id;
-    user.reviews.push(review);
-    user.coin += 3;
-    await user.save();
-  }
-  review.post = campground;
-  campground.reviews.push(review);
-  await review.save();
-  await campground.save();
 
-  req.flash("success", "🪙 + 3 ");
-  res.redirect(`/iframe/${campground._id}`);
-};
 
 module.exports.deleteReview = async (req, res) => {
   const { id, reviewId } = req.params;
@@ -53,15 +36,4 @@ module.exports.deleteReview = async (req, res) => {
   await user.save();
   req.flash("success", "成功刪除");
   res.redirect(`/${id}`);
-};
-
-module.exports.deleteIframeReview = async (req, res) => {
-  const { id, reviewId } = req.params;
-  await Campground.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });
-  await Review.findByIdAndDelete(reviewId);
-  const user = await User.findById(req.user._id);
-  user.coin -= 3;
-  await user.save();
-  req.flash("success", "成功刪除");
-  res.redirect(`/iframe/${id}`);
 };

@@ -101,13 +101,15 @@ module.exports.updateCampground = async (req, res) => {
 
 
 module.exports.deleteCampground = async (req, res) => {
-    const { id } = req.params;
-    const user = await User.findById(req.user._id);
-    user.coin -= 5;
-    await user.save();
+
+    const { id } = req.query;
     await Campground.findByIdAndDelete(id);
-    req.flash("success", "成功刪除");
-    res.redirect("/");
+    if (req.user) {
+        const user = await User.findById(req.user._id);
+        user.coin -= 5;
+        await user.save();
+    }
+    res.json({ state: 'success' });
 };
 
 module.exports.deleteIframeCampground = async (req, res) => {
