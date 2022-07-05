@@ -33,11 +33,7 @@ module.exports.renderNewForm = (req, res) => {
 
 module.exports.createCampground = async (req, res, next) => {
 
-    const campground = new Campground({
-        title: req.query.title,
-        description: req.query.description,
-        category: '吹水'
-    });
+    const campground = new Campground(req.body);
 
     if (req.user) {
         campground.author = req.user._id;

@@ -25,9 +25,10 @@ const apiRoutes = require("./routes/apis");
 const tutorRoutes = require("./routes/tutors");
 const jupasRoutes = require("./routes/jupas");
 const cors = require("cors");
-
+const bodyParser = require("body-parser")
 
 const MongoDBStore = require("connect-mongo");
+const { required } = require("joi");
 
 const dbUrl = process.env.DB_URL || "mongodb://localhost:27017/dse00";
 
@@ -56,6 +57,9 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
+
 app.use('/files', express.static('images'));
 app.engine("ejs", ejsMate);
 app.set("view engine", "ejs");

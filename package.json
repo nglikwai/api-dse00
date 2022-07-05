@@ -12,6 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "axios": "^0.26.1",
+    "body-parser": "^1.20.0",
     "cloudinary": "^1.23.0",
     "connect-flash": "^0.1.1",
     "connect-mongo": "^4.6.0",
