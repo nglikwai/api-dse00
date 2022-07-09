@@ -3,7 +3,10 @@ const Review = require("../models/review");
 const User = require("../models/user");
 
 module.exports.createReview = async (req, res) => {
-  console.log(req.body)
+  if (req.body.body.length < 3) {
+    console.log(req.body.review.length)
+    return res.json({ state: 'error' })
+  }
   const campground = await Campground.findById(req.body.post);
   const review = new Review(req.body);
   let id = '622874ccc8ed254d82edf591';

@@ -17,9 +17,9 @@ router.route('/')
     .delete(catchAsync(campgrounds.deleteCampground));
 
 
-router.route('/reply/:id')
+router.route('/reply')
     .get(catchAsync(campgrounds.renderReply))
-    .post(checkLogin, catchAsync(campgrounds.reply))
+    .post(catchAsync(campgrounds.reply))
 
 
 router.route('/search')

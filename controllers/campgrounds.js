@@ -32,7 +32,9 @@ module.exports.renderNewForm = (req, res) => {
 };
 
 module.exports.createCampground = async (req, res, next) => {
-
+    if (req.body.title.length < 11) {
+        return res.json({ state: 'error' })
+    }
     const campground = new Campground(req.body);
 
     if (req.user) {
@@ -123,12 +125,14 @@ module.exports.deleteIframeCampground = async (req, res) => {
 };
 
 module.exports.reply = async (req, res) => {
-    const { id } = req.params;
-    const campgroundid = req.query.post;
-    const campground = await Campground.findById(campgroundid);
+    if (req.body.reply.length < 1) {
+        return res.json({ state: 'error' })
+    }
+    console.log(req.body)
+    const campground = await Campground.findById(req.body.postId);
     campground.popular += 1;
-    const review = await Review.findById(id);
-    review.reply.push(req.body.review.reply)
+    const review = await Review.findById(req.body.reviewId);
+    review.reply.push(req.body.reply)
     if (!req.user) {
         review.replyAuthor.push('DSEJJ')
     } else {
@@ -140,7 +144,7 @@ module.exports.reply = async (req, res) => {
     await review.save();
     await campground.save();
     req.flash('success', ' 🪙 + 3');
-    res.redirect(`/${campgroundid}`)
+    res.json({ status: 'success', reply })
 }
 
 module.exports.renderReply = async (req, res) => {
