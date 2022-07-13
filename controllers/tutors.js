@@ -2,13 +2,16 @@ const Tutor = require('../models/tutor');
 const Case = require('../models/case');
 
 module.exports.renderTutors = async (req, res) => {
-    const tutors = await Tutor.find({});
-    res.json(tutors);
+
+    const { limit, page } = req.query
+    const options = { limit, page }
+    const tutors = await Tutor.paginate({}, options);
+    res.json(tutors.docs);
 }
 
 module.exports.renderTutor = async (req, res) => {
     const tutor = await Tutor.findById(req.params.id);
-    res.json(tutor);
+    res.json([tutor]);
 }
 
 module.exports.renderCase = async (req, res) => {

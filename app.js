@@ -121,7 +121,7 @@ app.use((req, res, next) => {
 app.use("/admins", adminRoutes);
 app.use("/apis", apiRoutes);
 app.use("/posts", campgroundRoutes);
-app.use("/tutor", tutorRoutes);
+app.use("/tutors", tutorRoutes);
 app.use("/cutoffs", cutoffRoutes);
 app.use("/users", userRoutes);
 app.use("/resources", pastpaperRoutes);
