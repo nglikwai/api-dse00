@@ -14,7 +14,4 @@ router.get('/', async (req, res) => {
     res.json({ cutoffs })
 })
 
-
-
-
 module.exports = router;
