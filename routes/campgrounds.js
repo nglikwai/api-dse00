@@ -32,6 +32,7 @@ router.get('/new', campgrounds.renderNewForm)
 router.route('/:id')
     .get(user.updateUser, catchAsync(campgrounds.showCampground))
     .put(isLoggedIn, isAuthor, upload.array('image'), validateCampground, user.updateUser, catchAsync(campgrounds.updateCampground))
+    .patch(catchAsync(campgrounds.addPopular))
 
 router.get('/:id/edit', isLoggedIn, isAuthor, catchAsync(campgrounds.renderEditForm))
 

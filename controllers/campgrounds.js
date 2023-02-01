@@ -147,6 +147,16 @@ module.exports.reply = async (req, res) => {
     res.json({ status: 'success', reply })
 }
 
+module.exports.addPopular = async (req, res) => {
+    const { id } = req.params
+    const { popular } = req.query
+
+    const campground = await Campground.findById(id)
+    campground.popular += parseInt(popular)
+    await campground.save()
+    res.json({ status: 'success', campground })
+}
+
 module.exports.renderReply = async (req, res) => {
     const { id } = req.params;
     const campgroundid = req.query.post;
