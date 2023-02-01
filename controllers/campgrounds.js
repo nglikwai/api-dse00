@@ -40,7 +40,7 @@ module.exports.createCampground = async (req, res, next) => {
     if (req.user) {
         campground.author = req.user._id;
         const user = await User.findById(req.user._id);
-        user.posts.push(campground);
+        // user.posts.push(campground);
         user.coin += 5;
         await user.save();
     }
