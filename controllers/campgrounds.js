@@ -12,7 +12,7 @@ module.exports.index = async (req, res) => {
     const page = req.query.page || 1;
     const category = req.query.category || ['吹水', 'DSE', '大學', '消息'];
     const options = {
-        sort: { updatedAt: -1 },
+        sort: { createdAt: -1 },
         populate: [{
             path: 'author',
             select: 'username'
