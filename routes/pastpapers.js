@@ -9,21 +9,21 @@ const pastpapers = require('../controllers/pastpapers');
 const { findById } = require('../models/user');
 
 
-router.get('/', async(req, res) => {
-    const pastpapers = await Pastpaper.find({lang:'EN'});
-    res.render('pastpapers/index', { pastpapers });
+router.get('/', async (req, res) => {
+    const pastpapers = await Pastpaper.find({ lang: 'EN' });
+    res.json(pastpapers);
 })
 
-router.get('/ZH', async(req, res) => {
-    const pastpapers = await Pastpaper.find({lang:'ZH'});
-    res.render('pastpapers/index', { pastpapers });
+router.get('/ZH', async (req, res) => {
+    const pastpapers = await Pastpaper.find({ lang: 'ZH' });
+    res.json(pastpapers);
 })
 
-router.get('/:title', async(req, res) => {
+router.get('/:title', async (req, res) => {
     const { title } = req.params;
     const pastpapers = await Pastpaper.find({ title })
     const pastpaper = pastpapers[0]
-    res.render('pastpapers/showpp', { pastpaper });
+    res.json(pastpapers);
 })
 
 
