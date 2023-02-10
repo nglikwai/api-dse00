@@ -47,9 +47,9 @@ const CampgroundSchema = new Schema({
         type: String,
         default: 'DSEJJ'
     },
-    post_group: [{
+    post_group: {
         type: String
-    }]
+    }
 }, { timestamps: true }, opts);
 
 
