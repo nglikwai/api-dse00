@@ -54,7 +54,7 @@ module.exports.showCampground = async (req, res) => {
     };
 
     const campground = await Campground.findById(req.params.id)
-    const data = await Campground.find({ $or: [{ _id: req.params.id }, { post_group: req.params.id }, { _id: campground.post_group || null }, { post_group: campground.post_group || null }] }).sort('createdAt');
+    const data = await Campground.find({ $or: [{ _id: req.params.id }, { post_group: req.params.id }, { _id: campground.post_group || null }, { post_group: campground.post_group || req.params.id }] }).sort('createdAt');
     res.json(data);
 
 };
