@@ -7,7 +7,6 @@ const { cloudinary } = require("../cloudinary");
 
 
 module.exports.index = async (req, res) => {
-    console.time('main')
     const limit = req.query.limit || 150;
     const page = req.query.page || 1;
     const category = req.query.category || ['吹水', 'DSE', '大學', '消息'];
@@ -21,9 +20,7 @@ module.exports.index = async (req, res) => {
         page,
     };
     const data = await Campground.paginate({ category }, options)
-
     const campgrounds = data.docs;
-    console.timeEnd('main')
     res.json(campgrounds);
 }
 
@@ -37,13 +34,13 @@ module.exports.createCampground = async (req, res, next) => {
     }
     const campground = new Campground(req.body);
 
-    if (req.user) {
-        campground.author = req.user._id;
-        const user = await User.findById(req.user._id);
-        // user.posts.push(campground);
-        user.coin += 5;
-        await user.save();
-    }
+    // if (req.user) {
+    //     campground.author = req.user._id;
+    //     // const user = await User.findById(req.user._id);
+    //     // user.posts.push(campground);
+    //     user.coin += 5;
+    //     await user.save();
+    // }
     await campground.save();
     res.json({ status: 'success', post: campground });
 };
@@ -51,23 +48,13 @@ module.exports.createCampground = async (req, res, next) => {
 
 
 module.exports.showCampground = async (req, res) => {
-    const campground = await Campground.findById(req.params.id)
-        .populate({
-            path: "reviews",
-            populate: {
-                path: "author",
-                select: 'username grade level'
-            },
-        })
-        .populate({
-            path: "author",
-            select: 'username grade level'
-        });
-    if (!campground) {
-        req.flash("error", "Cannot find that POST!");
-        return res.redirect("/");
-    }
-    res.json(campground);
+
+    const options = {
+        sort: { updatedAt: -1 },
+    };
+    const data = await Campground.find({ $or: [{ _id: req.params.id }, { post_group: req.params.id }] }).sort('createdAt');
+    res.json(data);
+
 };
 
 module.exports.renderEditForm = async (req, res) => {
