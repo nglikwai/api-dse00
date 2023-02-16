@@ -9,7 +9,8 @@ const { cloudinary } = require("../cloudinary");
 module.exports.index = async (req, res) => {
     const limit = req.query.limit || 150;
     const page = req.query.page || 1;
-    const category = req.query.category || ['吹水', 'DSE', '大學', '消息'];
+    const category = req.query.category;
+    const display_name = req.query.user
     const options = {
         sort: { updatedAt: -1 },
         populate: [{
@@ -19,7 +20,14 @@ module.exports.index = async (req, res) => {
         limit,
         page,
     };
-    const data = await Campground.paginate({ category }, options)
+    const filter = {}
+    if (category) {
+        filter.category = category
+    }
+    if (display_name) {
+        filter.display_name = display_name
+    }
+    const data = await Campground.paginate(filter, options)
     const campgrounds = data.docs;
     res.json(campgrounds);
 }
@@ -54,7 +62,7 @@ module.exports.showCampground = async (req, res) => {
     };
 
     const campground = await Campground.findById(req.params.id)
-    const data = await Campground.find({ $or: [{ _id: req.params.id }, { post_group: req.params.id }, { _id: campground.post_group || null }, { post_group: campground.post_group || req.params.id }] }).sort('createdAt');
+    const data = await Campground.find({ $or: [{ _id: req.params.id }, { _id: campground.post_group || null }, { post_group: campground.post_group || req.params.id }] }).sort('createdAt');
     res.json(data);
 
 };
