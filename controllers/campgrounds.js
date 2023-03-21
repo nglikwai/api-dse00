@@ -9,8 +9,8 @@ const { cloudinary } = require("../cloudinary");
 module.exports.index = async (req, res) => {
     const limit = req.query.limit || 150;
     const page = req.query.page || 1;
-    const category = req.query.category;
     const display_name = req.query.user
+    const { category, date_after } = req.query
     const options = {
         sort: { updatedAt: -1 },
         populate: [{
@@ -26,6 +26,9 @@ module.exports.index = async (req, res) => {
     }
     if (display_name) {
         filter.display_name = display_name
+    }
+    if (date_after) {
+        filter.createdAt = { "$gte": new Date(date_after) }
     }
     const data = await Campground.paginate(filter, options)
     const campgrounds = data.docs;
