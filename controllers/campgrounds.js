@@ -10,7 +10,7 @@ module.exports.index = async (req, res) => {
     const limit = req.query.limit || 150;
     const page = req.query.page || 1;
     const display_name = req.query.user
-    const { category, date_after } = req.query
+    const { category, date_after, popular } = req.query
     const options = {
         sort: { updatedAt: -1 },
         populate: [{

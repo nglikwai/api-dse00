@@ -24,6 +24,8 @@ const cutoffRoutes = require("./routes/cutoffs");
 const apiRoutes = require("./routes/apis");
 const tutorRoutes = require("./routes/tutors");
 const jupasRoutes = require("./routes/jupas");
+const familyRoutes = require("./routes/familys");
+
 const cors = require("cors");
 const bodyParser = require("body-parser")
 
@@ -38,8 +40,6 @@ mongoose.connect(dbUrl, {
     useUnifiedTopology: true,
     useFindAndModify: false,
 });
-
-
 
 
 const db = mongoose.connection;
@@ -128,6 +128,7 @@ app.use("/resources", pastpaperRoutes);
 app.use("/jupas", jupasRoutes)
 app.get("/", (req, res) => res.render('campgrounds'));
 app.use("/reviews", reviewRoutes);
+app.use("/familys", familyRoutes);
 
 
 
