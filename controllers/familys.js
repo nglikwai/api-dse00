@@ -7,7 +7,7 @@ module.exports.index = async (req, res) => {
 
 module.exports.find = async (req, res) => {
     console.log(req.params.id)
-    const family = await Family.find({ id: req.params.id })
+    const family = await Family.findOne({ id: req.params.id })
     res.json({ data: family })
 }
 
