@@ -45,13 +45,10 @@ module.exports.createCampground = async (req, res, next) => {
     }
     const campground = new Campground(req.body);
 
-    // if (req.user) {
-    //     campground.author = req.user._id;
-    //     // const user = await User.findById(req.user._id);
-    //     // user.posts.push(campground);
-    //     user.coin += 5;
-    //     await user.save();
-    // }
+    if (req.body.post_group) {
+        const parent_topic = await Campground.findById(req.body.post_group)
+        campground.category = parent_topic.category
+    }
     await campground.save();
     res.json({ status: 'success', post: campground });
 };
