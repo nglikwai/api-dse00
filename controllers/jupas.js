@@ -21,13 +21,10 @@ module.exports.gradtrip = async (req, res) => {
     const gradTrip = await Gradtrip.findOne({ username });
 
     if (gradTrip) {
-        console.log('exist and update');
-
         gradTrip.trip = trip;
-        // await gradTrip.save();
+        await gradTrip.save();
         res.json({ updated: gradTrip });
     } else {
-        console.log('new');
         const newTrip = new Gradtrip({ username, trip });
         await newTrip.save();
         res.status(200).json({ newTrip });
