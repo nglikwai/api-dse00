@@ -5,28 +5,27 @@ const familys = [
         id: 'dad',
         name: '爸爸 / 大姑爺',
         reference: 'GEYJSE',
-        locations: ['東京', '香港']
+        locations: ['新世界', '道頓堀']
     },
     {
         id: 'mum',
         name: '媽媽 /大姑媽',
         reference: 'D14J8L',
-        locations: ['大阪']
+        locations: ['海遊館']
 
     },
     {
         id: 'likwai',
         name: '力維',
         reference: 'E2NZ8V',
-        locations: ['大阪', '香港']
+        locations: ['海遊館', '道頓堀']
 
     },
     {
         id: 'kawing',
         name: '嘉穎',
         reference: 'X84PJZ',
-        locations: ['大阪']
-
+        locations: ['海遊館']
     }
 
 ];

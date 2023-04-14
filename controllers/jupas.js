@@ -1,5 +1,5 @@
 const Jupas = require('../models/jupas');
-
+const Gradtrip = require('../models/gradtrip');
 
 
 module.exports.searchCode = async (req, res) => {
@@ -16,3 +16,34 @@ module.exports.searchCode = async (req, res) => {
     const jupases = await Jupas.find({})
     res.render('jupas/index', { jupases })
 }
+module.exports.gradtrip = async (req, res) => {
+    const { username, trip } = req.body;
+    const gradTrip = await Gradtrip.findOne({ username });
+
+    if (gradTrip) {
+        console.log('exist and update');
+
+        gradTrip.trip = trip;
+        // await gradTrip.save();
+        res.json({ updated: gradTrip });
+    } else {
+        console.log('new');
+        const newTrip = new Gradtrip({ username, trip });
+        await newTrip.save();
+        res.status(200).json({ newTrip });
+    }
+};
+
+module.exports.gradtripReport = async (req, res) => {
+    const gradTrips = await Gradtrip.find({});
+    const count = {}
+    gradTrips.forEach(item => {
+        if (count[item.trip]) {
+            count[item.trip] += 1
+        } else {
+            count[item.trip] = 1
+        }
+    })
+    res.json(count);
+
+};
