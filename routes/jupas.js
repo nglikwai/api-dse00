@@ -9,6 +9,8 @@ router.get('/code', catchAsync(jupas.searchCode))
 router.get('/gradtrip', catchAsync(jupas.gradtripReport))
 router.post('/gradtrip', catchAsync(jupas.gradtrip))
 
+router.get('/getShrine', catchAsync(jupas.getShrine))
+router.post('/createShrine', catchAsync(jupas.createShrine))
 
 
 module.exports = router;

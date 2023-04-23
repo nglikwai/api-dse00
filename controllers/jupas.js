@@ -1,5 +1,6 @@
 const Jupas = require('../models/jupas');
 const Gradtrip = require('../models/gradtrip');
+const Shrine = require('../models/shrine');
 
 
 module.exports.searchCode = async (req, res) => {
@@ -43,4 +44,38 @@ module.exports.gradtripReport = async (req, res) => {
     })
     res.json(count);
 
+};
+
+module.exports.getShrine = async (req, res) => {
+    const { shrine, subShrine, name, date, id } = req.query
+    const filter = {}
+    if (shrine) {
+        filter.shrine = shrine
+    }
+    if (subShrine) {
+        filter.subShrine = subShrine
+    }
+    if (name) {
+        filter.name = name
+    }
+    if (date) {
+        filter.date = date
+    }
+    if (id) {
+        filter.id = id
+    }
+    console.log(filter)
+    const shrines = await Shrine.find(filter);
+    res.json({ data: shrines });
+};
+
+module.exports.createShrine = async (req, res, next) => {
+    const { content } = req.body
+    if (content.length < 11) {
+        return res.json({ state: 'error' })
+    }
+    const shrine = new Shrine(req.body);
+
+    await shrine.save();
+    res.json({ status: 'success', post: shrine });
 };
