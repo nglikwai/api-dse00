@@ -10,6 +10,8 @@ router.get('/gradtrip', catchAsync(jupas.gradtripReport))
 router.post('/gradtrip', catchAsync(jupas.gradtrip))
 
 router.get('/getShrine', catchAsync(jupas.getShrine))
+router.get('/:id/getShrine', catchAsync(jupas.getOneShrine))
+
 router.post('/createShrine', catchAsync(jupas.createShrine))
 
 

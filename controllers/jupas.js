@@ -69,6 +69,17 @@ module.exports.getShrine = async (req, res) => {
     res.json({ data: shrines });
 };
 
+
+module.exports.getOneShrine = async (req, res) => {
+    const { id } = req.params;
+
+    console.log(id)
+    const shrine = await Shrine.findById(id);
+    res.json({ data: shrine });
+};
+
+
+
 module.exports.createShrine = async (req, res, next) => {
     const { content } = req.body
     if (content.length < 11) {
@@ -77,5 +88,5 @@ module.exports.createShrine = async (req, res, next) => {
     const shrine = new Shrine(req.body);
 
     await shrine.save();
-    res.json({ status: 'success', post: shrine });
+    res.json({ status: 'success', data: shrine });
 };
