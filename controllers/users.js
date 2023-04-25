@@ -15,16 +15,10 @@ module.exports.register = async (req, res, next) => {
         const user = new User({ email, username });
         const registeredUser = await User.register(user, password);
         req.login(registeredUser, err => {
-            if (err) return next(err);
-            req.flash('success', 'Welcome to DSE00!');
-            user.coin = 50;
-            user.grade = '3';
-            user.save()
-            res.redirect('/users/intro');
+            res.json({ user })
         })
     } catch (e) {
-        req.flash('error', e.message);
-        res.redirect('/users/register');
+        res.json({ error: e });
     }
 }
 
@@ -32,11 +26,10 @@ module.exports.renderLogin = (req, res) => {
     res.render('users/login');
 }
 
-module.exports.login = (req, res) => {
+module.exports.login = async (req, res) => {
     req.flash('success', 'welcome back!');
-    const redirectUrl = req.session.returnTo || '/';
-    delete req.session.returnTo;
-    res.redirect(redirectUrl);
+    const user = await User.find({ username: req.body.username })
+    res.json({ user })
 }
 
 module.exports.logout = (req, res) => {
@@ -118,8 +111,7 @@ module.exports.checkIdEmailMatch = async (req, res) => {
         user.save()
         req.login(user, err => {
             if (err) return next(err);
-            req.flash('success', 'Password Changed');
-            res.redirect('/');
+            res.json({ user });
         })
     } catch (e) {
         req.flash('error', e.message);
