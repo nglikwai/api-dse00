@@ -20,6 +20,14 @@ const jupasSchema = new Schema({
     e1: Number,
     e2: Number,
     e3: Number,
+    like: {
+        type: Number,
+        default: 0
+    },
+    dislike: {
+        type: Number,
+        default: 0
+    },
 
 }, { timestamps: true });
 

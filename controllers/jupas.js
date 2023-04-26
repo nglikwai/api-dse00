@@ -4,18 +4,34 @@ const Shrine = require('../models/shrine');
 
 
 module.exports.searchCode = async (req, res) => {
-
     const filter = {}
     Object.keys(req.query).forEach(item => {
         filter[item] = req.query[item]
     })
     const jupases = await Jupas.find(filter)
 
+    if (jupases.length === 0) {
+        res.status(404).json({ 'message': '抱歉，沒有記錄' });
+    }
     res.json({ data: jupases })
 }
 module.exports.createRecord = async (req, res) => {
     const record = new Jupas(req.body)
     console.log(req.body)
+    await record.save()
+    res.json({ data: record })
+}
+
+module.exports.editRecord = async (req, res) => {
+    const { id, like, dislike } = req.body
+    const record = await Jupas.findById(id)
+
+    if (like) {
+        record.like += 1
+    }
+    if (dislike) {
+        record.dislike += 1
+    }
     await record.save()
     res.json({ data: record })
 }

@@ -7,6 +7,7 @@ router.get('/', catchAsync(jupas.searchCode))
 
 router.get('/code', catchAsync(jupas.searchCode))
 router.post('/code', catchAsync(jupas.createRecord))
+router.patch('/code', catchAsync(jupas.editRecord))
 
 
 router.get('/gradtrip', catchAsync(jupas.gradtripReport))
