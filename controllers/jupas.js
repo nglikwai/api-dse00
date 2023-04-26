@@ -4,17 +4,13 @@ const Shrine = require('../models/shrine');
 
 
 module.exports.searchCode = async (req, res) => {
-    if (req.query.code) {
-        if (!(req.query.code > 0)) {
-            req.flash('error', '只輸入 4 位數字 code');
-            res.redirect('/jupas/code')
-        }
-        const code = req.query.code;
-        console.log(code);
-        const jupases = await Jupas.find({ code })
-        return res.render('jupas/index', { jupases })
-    }
-    const jupases = await Jupas.find({})
+
+    const filter = {}
+    Object.keys(req.query).forEach(item => {
+        filter[item] = req.query[item]
+    })
+    const jupases = await Jupas.find(filter)
+
     res.json({ data: jupases })
 }
 module.exports.createRecord = async (req, res) => {
