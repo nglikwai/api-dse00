@@ -11,7 +11,7 @@ module.exports.searchCode = async (req, res) => {
     const jupases = await Jupas.find(filter)
 
     if (jupases.length === 0) {
-        res.status(404).json({ 'message': '抱歉，沒有記錄' });
+        res.json({ 'error': '抱歉，沒有記錄' });
     }
     res.json({ data: jupases })
 }
