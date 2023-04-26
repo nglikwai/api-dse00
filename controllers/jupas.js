@@ -15,8 +15,16 @@ module.exports.searchCode = async (req, res) => {
         return res.render('jupas/index', { jupases })
     }
     const jupases = await Jupas.find({})
-    res.render('jupas/index', { jupases })
+    res.json({ data: jupases })
 }
+module.exports.createRecord = async (req, res) => {
+    const record = new Jupas(req.body)
+    console.log(req.body)
+    await record.save()
+    res.json({ data: record })
+}
+
+
 module.exports.gradtrip = async (req, res) => {
     const { username, trip } = req.body;
     const gradTrip = await Gradtrip.findOne({ username });

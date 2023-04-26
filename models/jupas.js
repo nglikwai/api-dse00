@@ -1,14 +1,10 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const ImageSchema = new Schema({
-    url: String,
-    filename: String
-
-})
 
 const jupasSchema = new Schema({
-    title: String,
+    program: String,
+    school: String,
     year: {
         type: Number,
         min: 4
@@ -17,8 +13,14 @@ const jupasSchema = new Schema({
         type: Number,
         min: 4
     },
-    cutoffs: [[Number]],
-    images: [ImageSchema]
+    chin: Number,
+    eng: Number,
+    math: Number,
+    ls: Number,
+    e1: Number,
+    e2: Number,
+    e3: Number,
+
 }, { timestamps: true });
 
 module.exports = mongoose.model("Jupas", jupasSchema);
