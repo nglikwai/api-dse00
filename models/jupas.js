@@ -20,6 +20,7 @@ const jupasSchema = new Schema({
     e1: Number,
     e2: Number,
     e3: Number,
+    m1m2: Number,
     like: {
         type: Number,
         default: 0
