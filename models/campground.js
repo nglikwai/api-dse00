@@ -49,6 +49,9 @@ const CampgroundSchema = new Schema({
     },
     post_group: {
         type: String
+    },
+    ip: {
+        type: String
     }
 }, { timestamps: true }, opts);
 
