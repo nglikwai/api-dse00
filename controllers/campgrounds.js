@@ -45,9 +45,6 @@ module.exports.createCampground = async (req, res, next) => {
     }
     const campground = new Campground(req.body);
 
-    const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress
-    campground.ip = ip
-
     if (req.body.post_group) {
         const parent_topic = await Campground.findById(req.body.post_group)
         campground.category = parent_topic.category
