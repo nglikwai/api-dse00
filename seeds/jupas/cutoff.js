@@ -46,8 +46,8 @@ const seedDB = async () => {
     jupas.e1 = handleScore(jupas.e1)
     jupas.e2 = handleScore(jupas.e2)
     jupas.e3 = handleScore(jupas.e3)
+    jupas.m1m2 = handleScore(jupas.m1m2)
     console.log(jupas)
-
     await jupas.save();
   }
 };
