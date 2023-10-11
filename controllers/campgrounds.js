@@ -45,15 +45,18 @@ module.exports.createCampground = async (req, res, next) => {
   if (req.body.title.length < 11) {
     return res.json({ state: "error" });
   }
-  const { title, display_name, dirtyWordList } = req.body;
+  const { title, display_name, dirtyWordList, hasBlockedRecordInBrowser } =
+    req.body;
   const blockedUserList = await Blockuser.find();
   const ip = req.headers["x-forwarded-for"] || req.socket.remoteAddress;
   const isBlockedUser = blockedUserList.some((user) => user.ip === ip);
 
   if (
-    dirtyWordList.some((word) => title.includes(word)) ||
-    display_name.includes(word) ||
-    isBlockedUser
+    dirtyWordList.some(
+      (word) => title.includes(word) || display_name.includes(word)
+    ) ||
+    isBlockedUser ||
+    hasBlockedRecordInBrowser
   ) {
     if (!isBlockedUser) {
       const blockedUser = new Blockuser({ ...req.body, ip });
