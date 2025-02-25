@@ -6,6 +6,7 @@ const jupas = require('../controllers/jupas');
 router.get('/', catchAsync(jupas.searchCode))
 
 router.get('/code', catchAsync(jupas.searchCode))
+router.get('/recent', catchAsync(jupas.getRecent))
 router.post('/code', catchAsync(jupas.createRecord))
 router.patch('/code', catchAsync(jupas.editRecord))
 

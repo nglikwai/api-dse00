@@ -1,9 +1,13 @@
 const { spawn } = require("child_process");
 
 async function executeRemoteCommands() {
-  const hostname = "ec2-54-206-205-99.ap-southeast-2.compute.amazonaws.com";
-  const username = "ubuntu";
-  const privateKeyPath = "/Users/likwai/my-new-key.pem";
+  // const hostname = "ec2-54-206-205-99.ap-southeast-2.compute.amazonaws.com";
+  // const username = "ubuntu";
+  // const privateKeyPath = "/Users/likwai/my-new-key.pem";
+
+  const hostname = 'ec2-54-194-127-130.eu-west-1.compute.amazonaws.com';
+  const username = 'ubuntu';
+  const privateKeyPath = '/Users/likwai/shopsticks-ssh.pem';
 
   // replace the '.' with path if not in the project directory
   const firstCommand = [

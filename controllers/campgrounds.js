@@ -65,9 +65,6 @@ module.exports.createCampground = async (req, res, next) => {
     return res.json({ blockUser: true });
   }
   const campground = new Campground(req.body);
-  const newBlockUser = new Blockuser(req.body);
-  newBlockUser.save();
-
   campground.ip = ip;
 
   if (req.body.post_group) {
