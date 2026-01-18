@@ -102,11 +102,19 @@ module.exports.getOneShrine = async (req, res) => {
 
 module.exports.createShrine = async (req, res, next) => {
   const { content } = req.body;
-  if (content.length < 11) {
-    return res.json({ state: "error" });
+  if (content.length < 3) {
+    return res.json({ state: "字數太短" });
   }
   const shrine = new Shrine(req.body);
 
+  await shrine.save();
+  res.json({ status: "success", data: shrine });
+};
+
+module.exports.donateShrine = async (req, res, next) => {
+  const { id } = req.body;
+  const shrine = await Shrine.findById(id);
+  shrine.donation = 1;
   await shrine.save();
   res.json({ status: "success", data: shrine });
 };

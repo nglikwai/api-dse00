@@ -18,6 +18,7 @@ router.get('/getShrine', catchAsync(jupas.getShrine))
 router.get('/:id/getShrine', catchAsync(jupas.getOneShrine))
 
 router.post('/createShrine', catchAsync(jupas.createShrine))
+router.patch('/donateShrine', catchAsync(jupas.donateShrine))
 
 
 module.exports = router;

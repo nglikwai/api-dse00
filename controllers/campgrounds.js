@@ -9,7 +9,7 @@ module.exports.index = async (req, res) => {
   const limit = req.query.limit || 150;
   const page = req.query.page || 1;
   const display_name = req.query.user;
-  const { category, date_after, popular } = req.query;
+  const { category, date_after, popular, data_before } = req.query;
   const options = {
     sort: { updatedAt: -1 },
     populate: [
@@ -32,6 +32,7 @@ module.exports.index = async (req, res) => {
   if (date_after) {
     filter.createdAt = { $gte: new Date(date_after) };
   }
+
   const data = await Campground.paginate(filter, options);
   const campgrounds = data.docs;
   res.json(campgrounds);
@@ -42,7 +43,7 @@ module.exports.renderNewForm = (req, res) => {
 };
 
 module.exports.createCampground = async (req, res, next) => {
-  if (req.body.title.length < 11) {
+  if (req.body.title.length < 3) {
     return res.json({ state: "error" });
   }
   const { title, display_name, dirtyWordList, hasBlockedRecordInBrowser } =

@@ -16,6 +16,9 @@ const shrineSchema = new Schema({
     subShrine: {
         type: String,
     },
+    donation: {
+        type: Number,
+    },
 }, { timestamps: true });
 
 module.exports = mongoose.model("Shrine", shrineSchema);
