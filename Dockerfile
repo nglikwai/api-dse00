@@ -1,39 +1,18 @@
-# Use a lightweight Node.js base image
-FROM node:20-alpine AS builder
+# Base image
+FROM node:20-alpine
 
-# Set the working directory in the container
+# Create app directory
 WORKDIR /app
 
-# Copy package.json and package-lock.json to the container
-COPY package*.json ./
+COPY package.json yarn.lock ./
 
-# Install production dependencies
-RUN npm install --production
+# Install app dependencies
+RUN yarn install
 
-# Copy the rest of the application files to the container
+# Bundle app source
 COPY . .
 
-# Build your Express.js app (if necessary)
-# RUN npm run build
+# Creates a "dist" folder with the production build
+RUN yarn build
 
-# ---------------
-# Production Image
-# ---------------
-
-# Start with a minimal Alpine Linux image
-FROM alpine:latest
-
-# Set the working directory in the container
-WORKDIR /app
-
-# Install only necessary dependencies
-RUN apk --no-cache add nodejs
-
-# Copy built application from the builder stage
-COPY --from=builder /app .
-
-# Expose the port your app runs on
-EXPOSE 4000
-
-# Command to run your application
-CMD ["node", "app.js"]
+CMD ["node", "dist/main"]
