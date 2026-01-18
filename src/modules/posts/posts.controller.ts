@@ -58,18 +58,14 @@ export class PostsController {
   @UseGuards(AuthenticatedGuard)
   @ApiOperation({ summary: 'Delete post (authenticated)' })
   @ApiResponse({ status: 200, description: 'Post deleted' })
-  async delete(@Query('id') id: string, @Req() req) {
-    const userId = req.user?._id;
-    return this.postsService.delete(id, userId);
+  async delete(@Query('id') id: string) {
+    return this.postsService.delete(id);
   }
 
   @Patch(':id')
   @ApiOperation({ summary: 'Increment popular counter' })
   @ApiResponse({ status: 200, description: 'Popular counter updated' })
-  async addPopular(
-    @Param('id') id: string,
-    @Query('popular') popular: string,
-  ) {
+  async addPopular(@Param('id') id: string, @Query('popular') popular: string) {
     const amount = parseInt(popular) || 1;
     return this.postsService.incrementPopular(id, amount);
   }

@@ -1,5 +1,7 @@
-import { Injectable, BadRequestException } from '@nestjs/common';
+import { Injectable, BadRequestException, Inject } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
+import { Cache } from 'cache-manager';
 import { Model } from 'mongoose';
 import { Post, PostDocument } from './schemas/post.schema';
 import { CreatePostDto } from './dto/create-post.dto';
@@ -10,6 +12,7 @@ import { ModerationService } from '../moderation/moderation.service';
 export class PostsService {
   constructor(
     @InjectModel(Post.name) private postModel: Model<PostDocument>,
+    @Inject(CACHE_MANAGER) private cacheManager: Cache,
     private moderationService: ModerationService,
   ) {}
 
@@ -25,10 +28,7 @@ export class PostsService {
       page,
       limit,
       sort: { updatedAt: -1 },
-      populate: [
-        { path: 'author', select: 'username' },
-        { path: 'reviews' },
-      ],
+      populate: [{ path: 'author', select: 'username' }, { path: 'reviews' }],
     };
 
     // @ts-ignore - mongoose-paginate-v2 adds paginate method
@@ -71,6 +71,7 @@ export class PostsService {
     }
 
     await post.save();
+    await this.clearPostsCache();
     return { status: 'success', post };
   }
 
@@ -82,20 +83,22 @@ export class PostsService {
 
     const data = await this.postModel
       .find({
-        $or: [
-          { _id: id },
-          { _id: post.post_group || null },
-          { post_group: post.post_group || id },
-        ],
+        $or: [{ _id: id }, { _id: post.post_group || null }, { post_group: post.post_group || id }],
       })
       .sort('createdAt');
 
     return data;
   }
 
-  async delete(id: string, userId?: string) {
+  async delete(id: string) {
     await this.postModel.findByIdAndDelete(id);
+    await this.clearPostsCache();
     return { state: 'success' };
+  }
+
+  private async clearPostsCache() {
+    // Clear all cache when posts are modified
+    await this.cacheManager.clear();
   }
 
   async incrementPopular(id: string, amount: number = 1) {
@@ -108,21 +111,5 @@ export class PostsService {
     await post.save();
 
     return { status: 'success', post };
-  }
-
-  async toggleFavour(postId: string, userId: string, add: boolean) {
-    const post = await this.postModel.findById(postId);
-    if (!post) {
-      throw new BadRequestException('Post not found');
-    }
-
-    if (add) {
-      post.favour += 1;
-    } else {
-      post.favour = Math.max(0, post.favour - 1);
-    }
-
-    await post.save();
-    return post;
   }
 }
