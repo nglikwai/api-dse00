@@ -5,9 +5,10 @@ import {
   Delete,
   Body,
   Param,
+  Query,
   UseGuards,
 } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiResponse, ApiQuery } from '@nestjs/swagger';
 import { AdminService } from './admin.service';
 import { AuthenticatedGuard } from '../auth/guards/authenticated.guard';
 import { AdminGuard } from '../auth/guards/admin.guard';
@@ -21,15 +22,25 @@ export class AdminController {
   @Get()
   @ApiOperation({ summary: 'Get all users (Admin only)' })
   @ApiResponse({ status: 200, description: 'List of all users' })
-  async getAllUsers() {
-    return this.adminService.getAllUsers();
+  @ApiQuery({ name: 'page', required: false, type: Number })
+  @ApiQuery({ name: 'limit', required: false, type: Number })
+  async getAllUsers(
+    @Query('page') page?: number,
+    @Query('limit') limit?: number,
+  ) {
+    return this.adminService.getAllUsers(page || 1, limit || 50);
   }
 
   @Get('activity')
   @ApiOperation({ summary: 'Get users by activity (Admin only)' })
   @ApiResponse({ status: 200, description: 'Users sorted by activity' })
-  async getUsersByActivity() {
-    return this.adminService.getUsersByActivity();
+  @ApiQuery({ name: 'page', required: false, type: Number })
+  @ApiQuery({ name: 'limit', required: false, type: Number })
+  async getUsersByActivity(
+    @Query('page') page?: number,
+    @Query('limit') limit?: number,
+  ) {
+    return this.adminService.getUsersByActivity(page || 1, limit || 50);
   }
 
   @Get('count')

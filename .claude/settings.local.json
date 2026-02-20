@@ -6,7 +6,9 @@
       "Bash(npm run build:*)",
       "Bash(npm uninstall:*)",
       "Bash(npx eslint:*)",
-      "Bash(npx tsc:*)"
+      "Bash(npx tsc:*)",
+      "Bash(wc:*)",
+      "Bash(grep:*)"
     ]
   }
 }

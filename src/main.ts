@@ -21,12 +21,14 @@ async function bootstrap() {
     credentials: true,
   });
 
-  // Session
+  // Session with TTL cleanup to prevent unbounded session growth
   app.use(
     session({
       store: MongoStore.create({
         mongoUrl: process.env.DB_URL || 'mongodb://localhost:27017/dse00',
         touchAfter: 24 * 3600,
+        ttl: 60 * 60 * 24 * 7, // Sessions expire after 7 days (matches cookie maxAge)
+        autoRemove: 'native', // Use MongoDB TTL index for automatic cleanup
       }),
       secret: process.env.SECRET || 'thisshouldbeabettersecret!',
       resave: false,

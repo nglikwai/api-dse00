@@ -97,8 +97,15 @@ export class PostsService {
   }
 
   private async clearPostsCache() {
-    // Clear all cache when posts are modified
-    await this.cacheManager.clear();
+    // Only clear posts-related cache keys instead of entire cache
+    // This prevents cache thrashing and reduces memory pressure
+    const store = this.cacheManager.stores?.[0] || (this.cacheManager as any).store;
+    if (store?.keys) {
+      const keys = await store.keys('posts:*');
+      if (keys && keys.length > 0) {
+        await Promise.all(keys.map((key: string) => this.cacheManager.del(key)));
+      }
+    }
   }
 
   async incrementPopular(id: string, amount: number = 1) {

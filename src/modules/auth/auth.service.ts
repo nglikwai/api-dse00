@@ -40,6 +40,7 @@ export class AuthService {
   }
 
   async findById(id: string) {
-    return this.userModel.findById(id);
+    // Use lean() to reduce memory footprint for session deserialization
+    return this.userModel.findById(id).select('username email identity').lean();
   }
 }

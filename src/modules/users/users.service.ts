@@ -9,14 +9,16 @@ export class UsersService {
 
   /**
    * Get user by ID with populated data
+   * Using lean() to reduce memory footprint and limiting population
    */
   async findById(id: string) {
     return this.userModel
       .findById(id)
-      .populate('posts')
-      .populate('reviews')
-      .populate('favour')
-      .populate('friendList');
+      .populate({ path: 'posts', options: { limit: 50, sort: { createdAt: -1 } }, select: 'title createdAt' })
+      .populate({ path: 'reviews', options: { limit: 50, sort: { createdAt: -1 } }, select: 'reply createdAt' })
+      .populate({ path: 'favour', options: { limit: 50 }, select: 'title' })
+      .populate({ path: 'friendList', select: 'username' })
+      .lean();
   }
 
   /**

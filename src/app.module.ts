@@ -27,8 +27,13 @@ import { YylamModule } from './modules/yylam/yylam.module';
       envFilePath: '.env',
     }),
 
-    // MongoDB
-    MongooseModule.forRoot(process.env.DB_URL || 'mongodb://localhost:27017/dse00'),
+    // MongoDB with connection pool limits to prevent memory exhaustion
+    MongooseModule.forRoot(process.env.DB_URL || 'mongodb://localhost:27017/dse00', {
+      maxPoolSize: 10,
+      minPoolSize: 2,
+      serverSelectionTimeoutMS: 5000,
+      socketTimeoutMS: 45000,
+    }),
 
     // Rate Limiting
     ThrottlerModule.forRoot(throttlerConfig()),

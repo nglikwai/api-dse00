@@ -10,17 +10,31 @@ export class AdminService {
   ) {}
 
   /**
-   * Get all users with populated posts and reviews
+   * Get all users with counts instead of full populated data
+   * This prevents loading entire database into memory
    */
-  async getAllUsers() {
-    return this.userModel.find().populate('posts').populate('reviews');
+  async getAllUsers(page: number = 1, limit: number = 50) {
+    const skip = (page - 1) * limit;
+    return this.userModel
+      .find()
+      .select('username email identity createdAt updatedAt')
+      .skip(skip)
+      .limit(limit)
+      .lean();
   }
 
   /**
-   * Get users sorted by activity (updatedAt)
+   * Get users sorted by activity (updatedAt) with pagination
    */
-  async getUsersByActivity() {
-    return this.userModel.find().sort({ updatedAt: -1 });
+  async getUsersByActivity(page: number = 1, limit: number = 50) {
+    const skip = (page - 1) * limit;
+    return this.userModel
+      .find()
+      .select('username email identity updatedAt')
+      .sort({ updatedAt: -1 })
+      .skip(skip)
+      .limit(limit)
+      .lean();
   }
 
   /**
@@ -39,19 +53,16 @@ export class AdminService {
 
   /**
    * Delete empty users (no posts, no reviews)
+   * Uses database query instead of loading all users into memory
    */
   async deleteEmptyUsers() {
-    const users = await this.userModel.find();
-    const emptyUsers = users.filter(
-      (user) => user.posts.length === 0 && user.reviews.length === 0,
-    );
-
-    const deletePromises = emptyUsers.map((user) =>
-      this.userModel.findByIdAndDelete(user._id),
-    );
-
-    await Promise.all(deletePromises);
-    return { deleted: emptyUsers.length };
+    const result = await this.userModel.deleteMany({
+      $and: [
+        { $or: [{ posts: { $exists: false } }, { posts: { $size: 0 } }] },
+        { $or: [{ reviews: { $exists: false } }, { reviews: { $size: 0 } }] },
+      ],
+    });
+    return { deleted: result.deletedCount };
   }
 
   /**

@@ -2,10 +2,11 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Schema as MongooseSchema } from 'mongoose';
 import * as bcrypt from 'bcrypt';
 
-export type UserDocument = User & Document & {
-  setPassword(password: string): Promise<void>;
-  validatePassword(password: string): Promise<boolean>;
-};
+export type UserDocument = User &
+  Document & {
+    setPassword(password: string): Promise<void>;
+    validatePassword(password: string): Promise<boolean>;
+  };
 
 @Schema({ timestamps: true })
 export class User {
@@ -21,13 +22,13 @@ export class User {
   @Prop([{ type: MongooseSchema.Types.ObjectId, ref: 'Review' }])
   reviews: MongooseSchema.Types.ObjectId[];
 
-  @Prop([{ type: MongooseSchema.Types.ObjectId, ref: 'Campground' }])
+  @Prop([{ type: MongooseSchema.Types.ObjectId, ref: 'Post' }])
   favour: MongooseSchema.Types.ObjectId[];
 
   @Prop([{ type: MongooseSchema.Types.ObjectId, ref: 'User' }])
   friendList: MongooseSchema.Types.ObjectId[];
 
-  @Prop([{ type: MongooseSchema.Types.ObjectId, ref: 'Campground' }])
+  @Prop([{ type: MongooseSchema.Types.ObjectId, ref: 'Post' }])
   posts: MongooseSchema.Types.ObjectId[];
 
   @Prop({ default: '考到心儀嘅大學' })
